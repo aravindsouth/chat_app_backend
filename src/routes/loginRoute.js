@@ -25,7 +25,13 @@ loginRouter.post("/", function(req, res) {
                         let payload = { subject: checkUser.email + checkUser.password };
                         let token = jwt.sign(payload, "userKey");
                         console.log("user token: ", token);
-                        res.status(200).send({ status: true, name: user.username, role: "user", token });
+                        res.status(200).send({ 
+                            status: true, 
+                            name: user.username, 
+                            uid: user._id, 
+                            email: user.email,  
+                            token 
+                        });
                     }
                 })
             }

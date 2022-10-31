@@ -5,6 +5,15 @@ const bcrypt = require('bcrypt')
 
 const signupRouter = express.Router();
 
+const cors = require('cors')({origin: true});
+const StreamChat = require('stream-chat').StreamChat;
+
+
+const api_key = 'x9kbujw7tyrj'
+const api_secret = 'rznugs8k7ng8xw4sb4uhavc8p7sf7vjzfnppwyqrdperkqpw8azztjn4u5fs7fsx'
+
+const serverStreamClient = StreamChat.getInstance(api_key, api_secret);
+
 // using bcrypt
 signupRouter.post("/", function(req, res){
     var hashedPassword;
@@ -47,7 +56,22 @@ signupRouter.post("/", function(req, res){
                             res.json({ status: false })
                         } else {
                             console.log("success new user added")
-                            res.json({ status: true })
+                            // res.json({ status: true })
+                            try {
+                                serverStreamClient.upsertUser({
+                                  id: newuser._id,
+                                  name: newuser.username,
+                                  email: newuser.email
+                              })}
+                              catch (error) {
+                                console.log(error)
+                              }
+                            res.status(200).send({ 
+                                status: true, 
+                                name: newuser.username, 
+                                uid: newuser._id, 
+                                email: newuser.email
+                            });
                         }
 
                     })
