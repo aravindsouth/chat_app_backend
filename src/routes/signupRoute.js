@@ -9,8 +9,8 @@ const cors = require('cors')({origin: true});
 const StreamChat = require('stream-chat').StreamChat;
 
 
-const api_key = 'x9kbujw7tyrj'
-const api_secret = 'rznugs8k7ng8xw4sb4uhavc8p7sf7vjzfnppwyqrdperkqpw8azztjn4u5fs7fsx'
+const api_key = process.env.CHAT_API_KEY
+const api_secret = process.env.CHAT_API_SECRET
 
 const serverStreamClient = StreamChat.getInstance(api_key, api_secret);
 
